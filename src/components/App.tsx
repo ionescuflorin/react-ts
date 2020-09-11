@@ -7,8 +7,23 @@ interface AppProps {
   fetchTodos(): any;
 }
 class _App extends Component<AppProps> {
+  onButtonClick = (): void => {
+    this.props.fetchTodos();
+  };
+
+  renderList(): JSX.Element[] {
+    return this.props.todos.map((todo: Todo) => {
+      return <div key={todo.id}>{todo.title}</div>;
+    });
+  }
+
   render() {
-    return <div>Hi</div>;
+    return (
+      <div>
+        <button onClick={this.onButtonClick}>Fetch todos</button>
+        {this.renderList()}
+      </div>
+    );
   }
 }
 

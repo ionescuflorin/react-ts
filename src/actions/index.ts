@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { ActionTypes } from './types'
+import { ActionTypes } from './types';
 
 export interface Todo {
   id: number;
@@ -13,6 +13,12 @@ export interface FetchTodosAction {
   payload: Todo[];
 }
 
+export interface DeleteTodoAction {
+  type: ActionTypes.deleteTodo;
+  // because we provide only the id we want to delete
+  payload: number;
+}
+
 const url = 'https://jsonplaceholder.typicode.com/todos';
 
 export const fetchTodos = () => {
@@ -21,8 +27,15 @@ export const fetchTodos = () => {
     const response = await axios.get<Todo[]>(url);
 
     dispatch<FetchTodosAction>({
-        type: ActionTypes.fetchTodos,
-        payload: response.data
-    })
+      type: ActionTypes.fetchTodos,
+      payload: response.data,
+    });
   };
 };
+
+export const deleteTodo = (id: number): DeleteTodoAction => {
+  return {
+    type: ActionTypes.deleteTodo,
+    payload: id
+  }
+}
